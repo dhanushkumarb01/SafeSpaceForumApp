@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#3F51B5</color>
+    <color name="primary_dark">#303F9F</color>
+    <color name="primary_light">#C5CAE9</color>
+    <color name="accent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="dark_blue">#182D92</color>
+    <color name="purple_500">#182D92</color>
+
+    <color name="background_color">#F3F4F6</color>
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="blue_chip">#182D92</color>
+    <color name="yellow_chip">#FFD800</color>
+    <color name="green_chip">#00C853</color>
+
+    <!-- Chip Background Color Selector -->
+    <color name="chip_selected">#182D92</color>
+    <color name="chip_unselected">#FFFFFF</color>
+    <color name="chip_text_selected">#FFFFFF</color>
+    <color name="chip_text_unselected">#182D92</color>
+    <color name="category_chip_background">#F0F0F0</color>
+
+
+</resources>
