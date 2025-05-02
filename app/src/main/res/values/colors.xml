@@ -40,4 +40,13 @@
     <color name="blue_chip">#182D92</color>
     <color name="yellow_chip">#FFD800</color>
     <color name="green_chip">#00C853</color>
+
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!-- Custom colors for Your Space page -->
+
+    <color name="delete_red">#FF0000</color>
 </resources>

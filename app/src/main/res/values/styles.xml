@@ -30,4 +30,5 @@
         <item name="chipMinHeight">28dp</item>
         <item name="android:textColor">@color/text_primary</item>
     </style>
+
 </resources>

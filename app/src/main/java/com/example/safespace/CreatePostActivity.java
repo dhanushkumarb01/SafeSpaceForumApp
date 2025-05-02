@@ -16,16 +16,21 @@ public class CreatePostActivity extends AppCompatActivity {
     private EditText etSubject, etContent;
     private TextView tagGeneral, tagSupport, tagLegal, tagSafety, tagProblems, tagFeatures;
     private Button btnCreatePost, btnCancel;
-    private ImageButton btnBack;
+    private ImageButton btnBack, btnCamera;
 
-    private String selectedTag = ""; // To store which tag is selected
+    private String selectedTag = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
 
-        // Initialize views
+        initializeViews();
+        setUpTagListeners();
+        setUpButtonListeners();
+    }
+
+    private void initializeViews() {
         etSubject = findViewById(R.id.etSubject);
         etContent = findViewById(R.id.etContent);
 
@@ -39,27 +44,17 @@ public class CreatePostActivity extends AppCompatActivity {
         btnCreatePost = findViewById(R.id.btnCreatePost);
         btnCancel = findViewById(R.id.btnCancel);
         btnBack = findViewById(R.id.btnBack);
-
-        // Set up tag selection listeners
-        setUpTagListeners();
-
-        // Set up button click listeners
-        setUpButtonListeners();
+        btnCamera = findViewById(R.id.btnCamera); // ✅ Connected the camera/attachment button
     }
 
     private void setUpTagListeners() {
-        // Create a common click listener for all tags
         View.OnClickListener tagClickListener = view -> {
-            // Reset all tags to default state
             resetTagsSelection();
-
-            // Highlight the selected tag
             view.setAlpha(1.0f);
             selectedTag = ((TextView) view).getText().toString();
             Toast.makeText(this, "Selected tag: " + selectedTag, Toast.LENGTH_SHORT).show();
         };
 
-        // Apply the listener to all tag views
         tagGeneral.setOnClickListener(tagClickListener);
         tagSupport.setOnClickListener(tagClickListener);
         tagLegal.setOnClickListener(tagClickListener);
@@ -69,13 +64,13 @@ public class CreatePostActivity extends AppCompatActivity {
     }
 
     private void resetTagsSelection() {
-        // Make all tags semi-transparent
-        tagGeneral.setAlpha(0.7f);
-        tagSupport.setAlpha(0.7f);
-        tagLegal.setAlpha(0.7f);
-        tagSafety.setAlpha(0.7f);
-        tagProblems.setAlpha(0.7f);
-        tagFeatures.setAlpha(0.7f);
+        float defaultAlpha = 0.7f;
+        tagGeneral.setAlpha(defaultAlpha);
+        tagSupport.setAlpha(defaultAlpha);
+        tagLegal.setAlpha(defaultAlpha);
+        tagSafety.setAlpha(defaultAlpha);
+        tagProblems.setAlpha(defaultAlpha);
+        tagFeatures.setAlpha(defaultAlpha);
     }
 
     private void setUpButtonListeners() {
@@ -85,15 +80,15 @@ public class CreatePostActivity extends AppCompatActivity {
             }
         });
 
-        btnCancel.setOnClickListener(view -> {
-            // Just finish the activity, returning to previous screen
-            finish();
+        View.OnClickListener cancelListener = view -> finish();
+        btnCancel.setOnClickListener(cancelListener);
+        btnBack.setOnClickListener(cancelListener);
+
+        btnCamera.setOnClickListener(view -> {
+            Intent intent = new Intent(CreatePostActivity.this, UserPostsActivity.class);
+            startActivity(intent);
         });
 
-        btnBack.setOnClickListener(view -> {
-            // Same as cancel
-            finish();
-        });
     }
 
     private boolean validateInput() {
@@ -118,32 +113,27 @@ public class CreatePostActivity extends AppCompatActivity {
     }
 
     private void createNewPost() {
-        // Get the input values
         String subject = etSubject.getText().toString().trim();
         String content = etContent.getText().toString().trim();
 
-        // Create a new ForumPost object
         ForumPost post = new ForumPost();
         post.setSubject(subject);
         post.setContent(content);
         post.setTag(selectedTag);
-        post.setUsername("Golangnya"); // This would typically come from the logged-in user's profile
+        post.setUsername("Golangnya"); // TODO: Replace with logged-in user's username
         post.setTimestamp(System.currentTimeMillis());
 
-        // Add the post to your database or API
-        // For example:
-        // yourDatabase.addPost(post);
+        // TODO: Add to database or send to backend API
 
-        // Show a success message
         Toast.makeText(this, "Post created successfully!", Toast.LENGTH_SHORT).show();
 
-        // Navigate back to the forum or main activity
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, UserPostsActivity.class); // ✅
+
         startActivity(intent);
         finish();
     }
 
-    // Bottom navigation handler methods
+    // Bottom navigation methods
     public void onHomeClick(View view) {
         startActivity(new Intent(this, MainActivity.class));
     }
@@ -153,7 +143,7 @@ public class CreatePostActivity extends AppCompatActivity {
     }
 
     public void onTwitterClick(View view) {
-        // TODO: Navigate to twitter integration screen
+        // TODO: Navigate to Twitter integration
     }
 
     public void onGamesClick(View view) {
