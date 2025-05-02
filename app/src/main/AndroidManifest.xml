@@ -28,10 +28,18 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+
+        <!-- Create Post Activity -->
+        <activity
+            android:name=".CreatePostActivity"
+            android:label="Create Post"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+            />
 
     </application>
 

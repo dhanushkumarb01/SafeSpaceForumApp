@@ -19,4 +19,5 @@
     <string name="product_image">Product Image</string>
     <string name="edit_button">Edit</string>
     <string name="smile_button">Smile</string>
+    <string name="create_post">create_post\n\n</string>
 </resources>

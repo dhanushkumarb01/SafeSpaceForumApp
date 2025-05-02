@@ -1,9 +1,13 @@
 package com.example.safespace;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+
+    private static final int CREATE_POST_REQUEST_CODE = 1001;
 
     private ChipGroup tabChipGroup;
     private RecyclerView recyclerForumPosts;
@@ -33,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setupTabChips();
         setupBottomNavigation();
         setupRecyclerView();
+        setupEditButton(); // Changed from FAB to Edit Button
         loadForumPosts();
     }
 
@@ -42,12 +49,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void setupTabChips() {
-        // Set General tab as selected by default
         Chip generalChip = findViewById(R.id.chip_general);
         generalChip.setChecked(true);
 
         tabChipGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            // Handle tab selection and filter posts accordingly
             filterPostsByCategory(checkedId);
         });
     }
@@ -61,20 +66,42 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         recyclerForumPosts.setLayoutManager(new LinearLayoutManager(this));
         forumPosts = new ArrayList<>();
         forumPostAdapter = new ForumPostAdapter(this, forumPosts, getSupportFragmentManager());
-
         recyclerForumPosts.setAdapter(forumPostAdapter);
     }
 
+    // 🔄 Replaces FAB with Edit Button functionality
+    private void setupEditButton() {
+        ImageButton btnEdit = findViewById(R.id.btn_edit);
+        btnEdit.setOnClickListener(view -> openCreatePostScreenForResult());
+    }
+
+    private void openCreatePostScreen() {
+        Intent intent = new Intent(this, CreatePostActivity.class);
+        startActivity(intent);
+    }
+
+    private void openCreatePostScreenForResult() {
+        Intent intent = new Intent(this, CreatePostActivity.class);
+        startActivityForResult(intent, CREATE_POST_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CREATE_POST_REQUEST_CODE && resultCode == RESULT_OK) {
+            loadForumPosts();
+            Toast.makeText(this, "Post created successfully!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void loadForumPosts() {
-        // Add sample forum posts based on the screenshots
         forumPosts.clear();
 
-        // Define all numeric values as final variables first
         final int likes = 125;
         final int comments = 15;
         final int shares = 155;
 
-        // First post from Golangirya
         List<String> tags1 = new ArrayList<>(Arrays.asList("General", "Safety"));
         ForumPost post1 = new ForumPost(
                 "Golangirya",
@@ -86,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 likes, comments, shares);
         forumPosts.add(post1);
 
-        // Second post from Sunaina
         List<String> tags2 = new ArrayList<>(Arrays.asList("General", "Support"));
         ForumPost post2 = new ForumPost(
                 "Sunaina",
@@ -98,7 +124,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 likes, comments, shares);
         forumPosts.add(post2);
 
-        // Add duplicate post to match the screenshot
         List<String> tags3 = new ArrayList<>(Arrays.asList("General", "Support"));
         ForumPost post3 = new ForumPost(
                 "Sunaina",
@@ -114,29 +139,22 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void filterPostsByCategory(int tabId) {
-        // In a real app, you would filter the posts based on tab selection
-        // For this demo, we'll just reload all posts
+        // For now just reload all posts
         loadForumPosts();
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle bottom navigation selection
         int id = item.getItemId();
         if (id == R.id.nav_home) {
-            // Already on home
             return true;
         } else if (id == R.id.nav_search) {
-            // Handle search tab
             return true;
         } else if (id == R.id.nav_twitter) {
-            // Handle twitter tab
             return true;
         } else if (id == R.id.nav_games) {
-            // Handle games tab
             return true;
         } else if (id == R.id.nav_profile) {
-            // Handle profile tab
             return true;
         }
         return false;
