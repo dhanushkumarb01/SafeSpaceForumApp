@@ -45,6 +45,8 @@
             android:name=".UserPostsActivity"
             android:label="Your Space"
             android:theme="@style/AppTheme" /> <!-- This is updated to use AppTheme directly -->
+        <activity android:name=".EditPostActivity" />
+
 
     </application>
 

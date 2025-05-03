@@ -1,6 +1,8 @@
 package com.example.safespace;
 
-public class UserPost {
+import java.io.Serializable;
+
+public class UserPost implements Serializable {
     private int id;
     private String userName;
     private String content;
@@ -10,6 +12,7 @@ public class UserPost {
     private int shareCount;
     private String category;
 
+    // Constructor
     public UserPost(int id, String userName, String content, String postTime,
                     int likeCount, int commentCount, int shareCount, String category) {
         this.id = id;
@@ -22,6 +25,7 @@ public class UserPost {
         this.category = category;
     }
 
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -84,13 +88,5 @@ public class UserPost {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserPost userPost = (UserPost) o;
-        return id == userPost.id;
     }
 }

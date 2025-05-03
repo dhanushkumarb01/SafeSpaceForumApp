@@ -46,6 +46,7 @@ public class UserPostsAdapter extends RecyclerView.Adapter<UserPostsAdapter.Post
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         UserPost post = posts.get(position);
         holder.bind(post);
+
     }
 
     @Override
